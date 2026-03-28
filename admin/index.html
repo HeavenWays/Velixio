@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velixio · Admin</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../asset/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../asset/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../asset/Image_logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ══════════ LOGIN ══════════ -->
+<div id="login-screen" class="active">
+  <div class="login-bg"></div>
+  <div class="login-grid"></div>
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+      </div>
+      <span class="login-name">Velixio</span>
+      <span class="login-badge">Admin</span>
+    </div>
+    <div class="login-title">Bienvenue</div>
+    <div class="login-sub">Connectez-vous pour accéder au tableau de bord.</div>
+    <div id="login-err">Identifiants incorrects. Veuillez réessayer.</div>
+    <div class="field">
+      <label for="l-user">Identifiant</label>
+      <input id="l-user" type="text" placeholder="admin" autocomplete="username">
+    </div>
+    <div class="field">
+      <label for="l-pass">Mot de passe</label>
+      <input id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn-login" id="l-btn" onclick="doLogin()">Se connecter</button>
+    <div class="login-footer">Velixio · Tableau de bord privé &copy; 2026</div>
+  </div>
+</div>
+
+<!-- ══════════ DASHBOARD ══════════ -->
+<div id="dashboard">
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="sb-name">Velixio</div>
+        <div class="sb-sub">Admin</div>
+      </div>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="nav-section">Menu principal</div>
+      <div class="nav-item active" onclick="gotoView('overview',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        Vue d'ensemble
+      </div>
+      <div class="nav-item" onclick="gotoView('monitor',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Monitoring site
+      </div>
+      <div class="nav-item" onclick="gotoView('messages',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Messages
+        <span class="nav-badge" id="nav-badge" style="display:none">0</span>
+      </div>
+      <div class="nav-section" style="margin-top:8px">Système</div>
+      <div class="nav-item" onclick="gotoView('settings',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        Paramètres
+      </div>
+    </nav>
+
+    <div class="sb-footer">
+      <div class="sb-user" onclick="doLogout()">
+        <div class="user-av" id="sb-av">A</div>
+        <div class="user-info">
+          <div class="user-name" id="sb-uname">admin</div>
+          <div class="user-role">Administrateur</div>
+        </div>
+        <div class="logout-ico" title="Déconnexion">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Vue d'ensemble</div>
+      <div class="topbar-meta">
+        <span class="pulse-dot"></span>
+        <span id="clock">–</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ═══ OVERVIEW ═══ -->
+      <div id="view-overview" class="view active">
+        <div class="page-header">
+          <div class="page-title">Vue d'ensemble</div>
+          <div class="page-sub">Données en temps réel · velixio.com</div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <div class="stat-value" id="ov-status">–</div>
+            <div class="stat-label">Statut du site</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div class="stat-value" id="ov-resp">–</div>
+            <div class="stat-label">Temps de réponse</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <div class="stat-value" id="ov-total">–</div>
+            <div class="stat-label">Messages reçus</div>
+            <span class="stat-trend up" id="ov-new" style="display:none">0 nouveau(x)</span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+            <div class="stat-value" id="ov-checks">–</div>
+            <div class="stat-label">Vérifications 24h</div>
+          </div>
+        </div>
+
+        <div class="ov-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">Historique temps de réponse</div>
+              <button class="btn btn-ghost" style="padding:5px 10px;font-size:12px" onclick="loadOverview()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.96"/></svg>
+                Rafraîchir
+              </button>
+            </div>
+            <div class="panel-body"><div class="chart-box"><canvas id="ov-chart"></canvas></div></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">Informations site</div></div>
+            <div style="padding:8px 0">
+              <div class="info-row"><span class="info-label">URL surveillée</span><span class="info-value" style="font-family:var(--ffm);font-size:12px;color:var(--gold2)">velixio.com</span></div>
+              <div class="info-row"><span class="info-label">Dernier contrôle</span><span class="info-value" id="ov-last">–</span></div>
+              <div class="info-row"><span class="info-label">Réponse min. session</span><span class="info-value" id="ov-min">–</span></div>
+              <div class="info-row"><span class="info-label">Réponse max. session</span><span class="info-value" id="ov-max">–</span></div>
+              <div class="info-row"><span class="info-label">Méthode de check</span><span class="info-value" style="color:var(--green)">Browser fetch</span></div>
+              <div class="info-row"><span class="info-label">Auto-vérification</span><span class="info-value" style="color:var(--green)">Toutes les 5 min</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ MONITORING ═══ -->
+      <div id="view-monitor" class="view">
+        <div class="page-header">
+          <div class="page-title">Monitoring du site</div>
+          <div class="page-sub">Surveillance en temps réel de velixio.com depuis votre navigateur</div>
+        </div>
+        <div class="mon-grid">
+          <div class="status-display">
+            <div class="status-icon unknown" id="mon-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div>
+              <div class="status-lbl">Statut actuel</div>
+              <div class="status-val" id="mon-status">Chargement…</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:2px" id="mon-sub">–</div>
+            </div>
+          </div>
+          <div class="status-display">
+            <div class="status-icon online">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div class="status-lbl">Réponse moyenne (session)</div>
+              <div class="status-val" id="mon-avg">–</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:2px" id="mon-count-lbl">0 vérification(s)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:20px">
+          <div class="panel-header">
+            <div class="panel-title">Temps de réponse — historique de session</div>
+            <button class="btn btn-primary" onclick="triggerCheck()" id="check-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.96"/></svg>
+              Vérifier maintenant
+            </button>
+          </div>
+          <div class="panel-body"><div class="mon-chart-box"><canvas id="mon-chart"></canvas></div></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Journal des vérifications (session)</div>
+            <span style="font-size:12px;color:var(--muted)" id="mon-log-count">0 entrée(s)</span>
+          </div>
+          <div style="overflow-x:auto;max-height:320px;overflow-y:auto">
+            <table>
+              <thead><tr><th>#</th><th>Heure</th><th>Statut</th><th>Réponse</th><th>Note</th></tr></thead>
+              <tbody id="mon-tbody"><tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px">Aucune vérification effectuée.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ MESSAGES ═══ -->
+      <div id="view-messages" class="view">
+        <div class="page-header">
+          <div class="page-title">Messages de contact</div>
+          <div class="page-sub">Qualifiez, contactez et suivez chaque lead depuis une seule interface.</div>
+        </div>
+        <div class="msg-layout">
+          <div class="panel msg-panel">
+            <div class="msg-toolbar">
+              <div class="msg-toolbar-top">
+                <div>
+                  <div class="msg-list-title">Boîte de réception</div>
+                  <div class="msg-summary-text">Recherche instantanée, qualification rapide et priorisation des leads.</div>
+                </div>
+                <div class="msg-count-wrap">
+                  <span class="badge badge-new" id="msg-new-pill">0 nouveau</span>
+                  <div class="msg-count-lbl" id="msg-count-lbl">0 message(s)</div>
+                </div>
+              </div>
+              <div class="filter-bar">
+                <input class="search-input" type="text" placeholder="Rechercher un lead, un sujet, un plan..." id="msg-search" oninput="filterMsgs()">
+                <select class="status-select" id="msg-filter" onchange="filterMsgs()">
+                  <option value="">Tous</option>
+                  <option value="new">Nouveaux</option>
+                  <option value="read">Lus</option>
+                  <option value="replied">Répondus</option>
+                  <option value="archived">Archivés</option>
+                </select>
+              </div>
+              <div class="msg-stats">
+                <button type="button" class="msg-stat is-active" data-filter="" onclick="setMsgFilter('')">
+                  <span class="msg-stat-label">Tous</span>
+                  <span class="msg-stat-value" id="msg-stat-all">0</span>
+                </button>
+                <button type="button" class="msg-stat" data-filter="new" onclick="setMsgFilter('new')">
+                  <span class="msg-stat-label">Nouveaux</span>
+                  <span class="msg-stat-value" id="msg-stat-new">0</span>
+                </button>
+                <button type="button" class="msg-stat" data-filter="read" onclick="setMsgFilter('read')">
+                  <span class="msg-stat-label">Lus</span>
+                  <span class="msg-stat-value" id="msg-stat-read">0</span>
+                </button>
+                <button type="button" class="msg-stat" data-filter="replied" onclick="setMsgFilter('replied')">
+                  <span class="msg-stat-label">Répondus</span>
+                  <span class="msg-stat-value" id="msg-stat-replied">0</span>
+                </button>
+              </div>
+            </div>
+            <div class="msg-items" id="msg-list">
+              <div class="empty-state" style="padding:32px">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <div class="empty-state-title">Aucun message</div>
+                <p>Soumettez le formulaire depuis le site Velixio.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel msg-detail" id="msg-detail">
+            <div class="msg-detail-empty">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <div class="msg-detail-empty-title">Sélectionnez un message</div>
+              <div style="font-size:13px">Fiche client, actions rapides et historique s'affichent ici.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ SETTINGS ═══ -->
+      <div id="view-settings" class="view">
+        <div class="page-header">
+          <div class="page-title">Paramètres</div>
+          <div class="page-sub">Configuration du tableau de bord</div>
+        </div>
+        <div style="display:grid;gap:20px;max-width:740px">
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">Administrateur</div></div>
+            <div>
+              <div class="site-info-row"><span class="info-label">Identifiant</span><span class="info-value" id="cfg-user" style="font-family:var(--ffm)">–</span></div>
+              <div class="site-info-row"><span class="info-label">Mode</span><span class="info-value" style="color:var(--green)">100% Local · Sans serveur</span></div>
+              <div class="site-info-row"><span class="info-label">Stockage messages</span><span class="info-value" style="color:var(--gold2)">localStorage · même navigateur</span></div>
+              <div class="site-info-row">
+                <span class="info-label">Effacer tous les messages</span>
+                <button class="btn btn-danger" onclick="clearAllMessages()">Effacer</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">Plans configurés</div></div>
+            <div class="panel-body">
+              <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Ces plans sont synchronisés avec le formulaire du site Velixio.</p>
+              <div style="display:grid;gap:8px">
+                ${[...PLANS.creation, ...PLANS.maintenance].map(p => `
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
+                  <div>
+                    <span style="font-weight:600;color:var(--white)">${p.label}</span>
+                    <span style="font-size:11px;color:var(--muted);margin-left:8px">${p.category}</span>
+                  </div>
+                  <span style="font-family:var(--ffm);font-size:12px;color:var(--gold2)">${p.price}</span>
+                </div>`).join('')}
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">Comment ça fonctionne</div></div>
+            <div class="panel-body" style="color:var(--muted);font-size:13.5px;line-height:1.9">
+              <p style="margin-bottom:16px">Ce tableau de bord fonctionne <strong style="color:var(--white)">sans serveur</strong> via le <strong style="color:var(--white)">localStorage</strong> de votre navigateur.</p>
+              <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:16px;margin-bottom:16px">
+                <div style="font-size:11px;color:var(--muted2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">Étapes</div>
+                <ol style="list-style:none;display:flex;flex-direction:column;gap:8px">
+                  <li style="display:flex;gap:10px;align-items:flex-start">
+                    <span style="background:var(--gold-soft);color:var(--gold2);border-radius:50%;width:20px;height:20px;display:grid;place-items:center;flex-shrink:0;font-size:11px;font-weight:600">1</span>
+                    <span>Ouvrez <code style="background:var(--surface2);padding:1px 6px;border-radius:4px;font-family:var(--ffm);font-size:12px">index.html</code> du site Velixio dans votre navigateur</span>
+                  </li>
+                  <li style="display:flex;gap:10px;align-items:flex-start">
+                    <span style="background:var(--gold-soft);color:var(--gold2);border-radius:50%;width:20px;height:20px;display:grid;place-items:center;flex-shrink:0;font-size:11px;font-weight:600">2</span>
+                    <span>Remplissez le formulaire de contact et choisissez un plan</span>
+                  </li>
+                  <li style="display:flex;gap:10px;align-items:flex-start">
+                    <span style="background:var(--gold-soft);color:var(--gold2);border-radius:50%;width:20px;height:20px;display:grid;place-items:center;flex-shrink:0;font-size:11px;font-weight:600">3</span>
+                    <span>Revenez ici — le message avec le plan choisi apparaît instantanément dans <strong style="color:var(--white)">Messages</strong></span>
+                  </li>
+                </ol>
+              </div>
+              <p>⚠️ Les deux fichiers doivent être ouverts dans le <strong style="color:var(--white)">même navigateur</strong> pour partager le localStorage.</p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">Identifiants de connexion</div></div>
+            <div class="panel-body">
+<pre><span style="color:var(--gold2)">Identifiant</span>   admin
+<span style="color:var(--gold2)">Mot de passe</span>  velixio2025
+
+Modifiables dans <code style="font-family:var(--ffm);font-size:12px">js/config.js</code> (variable CREDS).</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Scripts — ordre important : config → ui → auth → monitoring → messages → main -->
+<script src="js/config.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/monitoring.js"></script>
+<script src="js/messages.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
