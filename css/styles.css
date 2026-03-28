@@ -8485,27 +8485,37 @@ button, .plan-cta, .faq-q, .nav-cta, .btn-primary, .btn-secondary {
    Breakpoints : 900px (tablette) · 768px (mobile) · 480px (xs)
 ════════════════════════════════════════════════════════════ */
 
+/* ══════════════════════════════════════════════════════
+   BURGER MENU — SYSTÈME COMPLET & BULLETPROOF
+══════════════════════════════════════════════════════ */
+
 /* ── HAMBURGER BUTTON ── */
 .nav-hamburger {
   display: none;
+  position: relative;        /* needed for z-index to work */
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 5px;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   background: transparent;
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 8px;
+  border: 1.5px solid rgba(255,255,255,.18);
+  border-radius: 10px;
   cursor: pointer;
   padding: 0;
-  transition: border-color .2s, background .2s;
+  transition: border-color .2s, background .2s, transform .15s;
   flex-shrink: 0;
-  z-index: 1100;
+  z-index: 2100;             /* bien au-dessus de tout */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .nav-hamburger:hover {
   border-color: var(--gold2);
-  background: rgba(200,160,32,.06);
+  background: rgba(200,160,32,.08);
+}
+.nav-hamburger:active {
+  transform: scale(.93);
 }
 .nav-hamburger span {
   display: block;
@@ -8513,68 +8523,78 @@ button, .plan-cta, .faq-q, .nav-cta, .btn-primary, .btn-secondary {
   height: 2px;
   background: var(--white);
   border-radius: 2px;
-  transition: transform .3s cubic-bezier(.23,1,.32,1), opacity .2s, width .3s;
+  transition: transform .3s cubic-bezier(.23,1,.32,1),
+              opacity .2s ease,
+              width .3s ease;
+  pointer-events: none;
 }
 
-/* Animated to X */
-.nav-hamburger.open span:nth-child(1) {
+/* Animation → croix */
+.nav-hamburger.is-open span:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
 }
-.nav-hamburger.open span:nth-child(2) {
+.nav-hamburger.is-open span:nth-child(2) {
   opacity: 0;
   width: 0;
 }
-.nav-hamburger.open span:nth-child(3) {
+.nav-hamburger.is-open span:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg);
 }
 
-/* ── MOBILE NAV OVERLAY ── */
+/* ── OVERLAY (fond semi-transparent) ── */
 .nav-mobile-overlay {
-  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(9,9,12,.85);
+  background: rgba(6,6,10,.88);
   backdrop-filter: blur(6px);
-  z-index: 999;
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1900;
   opacity: 0;
-  transition: opacity .3s ease;
+  pointer-events: none;      /* invisible = non-cliquable */
+  transition: opacity .32s ease;
 }
-.nav-mobile-overlay.open {
+.nav-mobile-overlay.is-open {
   opacity: 1;
+  pointer-events: all;       /* visible = cliquable pour fermer */
 }
 
-/* ── MOBILE NAV DRAWER ── */
+/* ── DRAWER MOBILE ── */
 .nav-mobile-menu {
-  display: none;
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   width: min(320px, 88vw);
-  background: rgba(12,12,16,.98);
-  border-left: 1px solid var(--border);
-  z-index: 1000;
-  padding: 88px 2rem 2rem;
+  background: rgba(10,10,14,.99);
+  border-left: 1px solid rgba(255,255,255,.08);
+  z-index: 2000;             /* au-dessus de l'overlay */
+  padding: 90px 2rem 2.5rem;
+  display: flex;
   flex-direction: column;
   gap: 0;
   transform: translateX(100%);
-  transition: transform .35s cubic-bezier(.23,1,.32,1);
+  transition: transform .38s cubic-bezier(.23,1,.32,1);
   overflow-y: auto;
+  /* TOUJOURS visible dans le DOM, déplacé hors-écran */
+  visibility: hidden;
 }
-.nav-mobile-menu.open {
+.nav-mobile-menu.is-open {
   transform: translateX(0);
+  visibility: visible;
 }
+
+/* Liens du drawer */
 .nav-mobile-menu a,
 .nav-mobile-menu .nav-mobile-link {
   display: block;
   padding: 1rem 0;
-  font-size: .9rem;
-  font-weight: 600;
-  letter-spacing: .08em;
+  font-size: .88rem;
+  font-weight: 700;
+  letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: rgba(248,248,246,.55);
   text-decoration: none;
-  border-bottom: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid rgba(255,255,255,.07);
   transition: color .2s, padding-left .2s;
   cursor: pointer;
   background: none;
@@ -8592,49 +8612,49 @@ button, .plan-cta, .faq-q, .nav-cta, .btn-primary, .btn-secondary {
 }
 .nav-mobile-menu .nav-mobile-submenu {
   padding-left: 1rem;
-  border-bottom: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid rgba(255,255,255,.07);
 }
 .nav-mobile-menu .nav-mobile-submenu a {
   font-size: .78rem;
   border-bottom: none;
   padding: .6rem 0;
-  color: var(--muted2);
+  color: rgba(248,248,246,.32);
 }
 .nav-mobile-cta {
-  display: block;
+  display: block !important;
   margin-top: 1.5rem;
-  padding: 1rem 1.5rem;
-  background: var(--gold);
+  padding: 1rem 1.5rem !important;
+  background: var(--gold) !important;
   color: #000 !important;
   font-family: var(--ffd);
-  font-size: .9rem;
+  font-size: .9rem !important;
   font-weight: 800;
-  border-radius: 8px;
+  border-radius: 10px;
   text-decoration: none;
   text-align: center;
-  transition: background .2s;
+  transition: background .2s, transform .15s;
   letter-spacing: -.01em;
-  border-bottom: none !important;
+  border: none !important;
 }
 .nav-mobile-cta:hover {
   background: var(--gold2) !important;
+  color: #000 !important;
   padding-left: 1.5rem !important;
+  transform: translateY(-1px);
 }
 
-/* ── TABLET & MOBILE NAV ── */
+/* ── ACTIVATION MOBILE (<= 900px) ── */
 @media (max-width: 900px) {
+  /* Masquer le nav desktop */
   .nav-links,
   .nav-cta {
     display: none !important;
   }
+  /* Afficher le burger */
   .nav-hamburger {
-    display: flex;
+    display: flex !important;
   }
-  .nav-mobile-overlay,
-  .nav-mobile-menu {
-    display: flex;
-  }
-  /* Prevent body scroll when menu open */
+  /* Empêcher le scroll body quand le menu est ouvert */
   body.nav-open {
     overflow: hidden;
   }
