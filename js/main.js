@@ -617,3 +617,70 @@
       });
     })();
 
+
+    /* ════════════════════════════════════════════
+       MOBILE NAVIGATION — hamburger menu
+    ════════════════════════════════════════════ */
+    (function () {
+      if (window.__velixioMobileNavBound) return;
+      window.__velixioMobileNavBound = true;
+
+      function initMobileNav() {
+        const btn      = document.getElementById('nav-hamburger');
+        const overlay  = document.getElementById('nav-mobile-overlay');
+        const menu     = document.getElementById('nav-mobile-menu');
+        if (!btn || !overlay || !menu) return;
+
+        function openMenu() {
+          btn.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+          overlay.classList.add('open');
+          menu.classList.add('open');
+          document.body.classList.add('nav-open');
+          overlay.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeMenu() {
+          btn.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          overlay.classList.remove('open');
+          menu.classList.remove('open');
+          document.body.classList.remove('nav-open');
+          overlay.setAttribute('aria-hidden', 'true');
+        }
+
+        btn.addEventListener('click', function () {
+          btn.classList.contains('open') ? closeMenu() : openMenu();
+        });
+
+        overlay.addEventListener('click', closeMenu);
+
+        /* Close on link click */
+        menu.querySelectorAll('[data-close-nav]').forEach(function (el) {
+          el.addEventListener('click', function () {
+            closeMenu();
+            /* smooth-scroll if href points to an id */
+            var href = el.getAttribute('href');
+            if (href && href.startsWith('#')) {
+              var target = document.getElementById(href.slice(1));
+              if (target) {
+                setTimeout(function () {
+                  target.scrollIntoView({ behavior: 'smooth' });
+                }, 300);
+              }
+            }
+          });
+        });
+
+        /* Close on Escape */
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeMenu();
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMobileNav);
+      } else {
+        initMobileNav();
+      }
+    })();

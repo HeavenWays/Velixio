@@ -21,5 +21,31 @@
     </ul>
     <a class="nav-cta" href="#pricing"
       onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'});return false;">Démarrer</a>
+
+    <!-- Hamburger button (mobile only) -->
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile nav overlay -->
+  <div class="nav-mobile-overlay" id="nav-mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Mobile nav drawer -->
+  <nav class="nav-mobile-menu" id="nav-mobile-menu" aria-label="Menu mobile">
+    <a href="#services" class="nav-mobile-link" data-close-nav>Services</a>
+    <a href="#portfolio" class="nav-mobile-link" data-close-nav>Réalisations</a>
+    <div class="nav-mobile-submenu">
+      <button class="nav-mobile-link" style="font-size:.8rem;opacity:.6;pointer-events:none;padding:.5rem 0;border:none">À propos</button>
+      <a href="#about" data-close-nav>Qui sommes-nous</a>
+      <a href="#vs" data-close-nav>Pourquoi nous</a>
+      <a href="#how" data-close-nav>Notre méthode</a>
+    </div>
+    <a href="#pricing" class="nav-mobile-link" data-close-nav>Tarifs</a>
+    <a href="#contact" class="nav-mobile-link" data-close-nav>Contact</a>
+    <a href="#pricing" class="nav-mobile-cta" data-close-nav
+      onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'});return false;">Démarrer mon projet</a>
   </nav>
 

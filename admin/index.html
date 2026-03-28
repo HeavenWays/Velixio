@@ -104,6 +104,9 @@
 
   <main class="main">
     <div class="topbar">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
       <div class="topbar-title" id="topbar-title">Vue d'ensemble</div>
       <div class="topbar-meta">
         <span class="pulse-dot"></span>
@@ -377,5 +380,33 @@ Firebase Console ou la réinitialisation par email.</pre>
 <script src="js/monitoring.js"></script>
 <script src="js/messages.js"></script>
 <script src="js/main.js"></script>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<script>
+(function(){
+  var btn      = document.getElementById('sidebar-toggle');
+  var sidebar  = document.querySelector('.sidebar');
+  var overlay  = document.getElementById('sidebar-overlay');
+  if (!btn || !sidebar || !overlay) return;
+  function open() {
+    sidebar.classList.add('open');
+    overlay.classList.add('open');
+    btn.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+    btn.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  btn.addEventListener('click', function(){ sidebar.classList.contains('open') ? close() : open(); });
+  overlay.addEventListener('click', close);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
+  /* Auto-close when a nav item is clicked on mobile */
+  document.querySelectorAll('.nav-item').forEach(function(el){
+    el.addEventListener('click', function(){ if(window.innerWidth <= 768) close(); });
+  });
+})();
+</script>
 </body>
 </html>

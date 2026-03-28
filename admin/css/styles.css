@@ -409,3 +409,80 @@ pre { font-family:var(--ffm); font-size:12.5px; color:var(--muted); line-height:
   .msg-hero { padding:20px }
 }
 @media(max-width:768px) { .sidebar { display:none } .content { padding:20px } .topbar { padding:0 20px } }
+
+/* ════════════════════════════════════════════
+   ADMIN RESPONSIVE — sidebar toggle mobile
+════════════════════════════════════════════ */
+.sidebar-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: 38px;
+  height: 38px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background .2s, border-color .2s;
+}
+.sidebar-toggle:hover {
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.2);
+}
+.sidebar-toggle span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: rgba(249,249,247,.7);
+  border-radius: 2px;
+  transition: transform .3s, opacity .2s;
+}
+.sidebar-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.sidebar-toggle.open span:nth-child(2) { opacity: 0; }
+.sidebar-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 99;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.sidebar-overlay.open { opacity: 1; }
+
+@media(max-width:768px) {
+  .sidebar-toggle { display: flex; }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform .32s cubic-bezier(.23,1,.32,1);
+    display: flex !important;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 8px 0 32px rgba(0,0,0,.5);
+  }
+  .sidebar-overlay { display: block; }
+
+  .content { padding: 16px; }
+  .topbar { padding: 0 16px; gap: .75rem; }
+  .topbar-title { font-size: .95rem; }
+
+  html, body { overflow-x: hidden; }
+}
+
+@media(max-width:480px) {
+  .ov-grid { grid-template-columns: 1fr 1fr !important; }
+  .msg-stats { grid-template-columns: 1fr 1fr !important; }
+  .filter-bar { grid-template-columns: 1fr !important; }
+}
