@@ -228,23 +228,43 @@
     </button>
   </nav>
 
-  <!-- Overlay mobile -->
+  <!-- Overlay mobile (non utilisé visuellement, gardé pour compatibilité JS) -->
   <div class="nav-mobile-overlay" id="nav-mobile-overlay"></div>
 
-  <!-- Drawer mobile -->
+  <!-- Menu mobile PLEIN ÉCRAN -->
   <nav class="nav-mobile-menu" id="nav-mobile-menu" aria-label="Menu mobile" aria-hidden="true">
-    <a href="#services" data-close-nav>Services</a>
-    <a href="#portfolio" data-close-nav>Réalisations</a>
-    <div class="nav-mobile-submenu">
-      <span style="display:block;padding:.5rem 0;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(249,249,247,.3);font-family:var(--ffd)">À propos</span>
-      <a href="#about" data-close-nav onclick="setTimeout(()=>document.getElementById('about').scrollIntoView({behavior:'smooth'}),300)">Qui sommes-nous</a>
-      <a href="#vs" data-close-nav onclick="setTimeout(()=>document.getElementById('vs').scrollIntoView({behavior:'smooth'}),300)">Pourquoi nous</a>
-      <a href="#how" data-close-nav onclick="setTimeout(()=>document.getElementById('how').scrollIntoView({behavior:'smooth'}),300)">Notre méthode</a>
+    <div class="nav-mobile-inner">
+
+      <!-- Logo -->
+      <div class="nav-mobile-logo">Velix<span>io</span></div>
+
+      <!-- Liens principaux -->
+      <a href="#services"   class="nm-link" data-close-nav>Services</a>
+      <a href="#portfolio"  class="nm-link" data-close-nav>Réalisations</a>
+      <a href="#pricing"    class="nm-link" data-close-nav>Tarifs</a>
+      <a href="#about"      class="nm-link" data-close-nav>À propos</a>
+      <a href="#contact"    class="nm-link" data-close-nav>Contact</a>
+
+      <!-- Sous-section À propos -->
+      <div class="nav-mobile-submenu">
+        <div class="nav-mobile-submenu-label">À propos</div>
+        <a href="#about" data-close-nav>Qui sommes-nous</a>
+        <a href="#vs"    data-close-nav>Pourquoi nous</a>
+        <a href="#how"   data-close-nav>Notre méthode</a>
+      </div>
+
+      <!-- CTA principal -->
+      <a href="#pricing" class="nav-mobile-cta" data-close-nav>
+        🚀 Démarrer mon projet
+      </a>
+
+      <!-- Contact rapide -->
+      <div class="nav-mobile-contact">
+        <a href="tel:+212674323871">+212 674 32 38 71</a><br>
+        <a href="https://wa.me/212674323871" target="_blank" rel="noopener">WhatsApp direct</a>
+      </div>
+
     </div>
-    <a href="#pricing" data-close-nav>Tarifs</a>
-    <a href="#contact" data-close-nav>Contact</a>
-    <a href="#pricing" class="nav-mobile-cta" data-close-nav
-      onclick="setTimeout(()=>document.getElementById('pricing').scrollIntoView({behavior:'smooth'}),300)">Démarrer mon projet</a>
   </nav>
 
   <!-- MODAL DÉMARRER VERSION ILLUSTRÉE -->
@@ -3619,25 +3639,20 @@
 
   <script src="js/main.js" defer></script>
 
-  <!-- ═══════════════════════════════════════════════
-       BURGER MENU — Script inline garanti
-       (séparé de main.js pour éviter tout conflit)
-  ═══════════════════════════════════════════════ -->
+  <!-- ═══ BURGER MENU — Script garanti ═══ -->
   <script>
   (function () {
     'use strict';
 
     var btn     = document.getElementById('nav-hamburger');
-    var overlay = document.getElementById('nav-mobile-overlay');
     var menu    = document.getElementById('nav-mobile-menu');
+    var overlay = document.getElementById('nav-mobile-overlay');
 
-    if (!btn || !overlay || !menu) return;
+    if (!btn || !menu) return;
 
-    /* ── helpers ── */
     function openMenu() {
       btn.classList.add('is-open');
       btn.setAttribute('aria-expanded', 'true');
-      overlay.classList.add('is-open');
       menu.classList.add('is-open');
       menu.setAttribute('aria-hidden', 'false');
       document.body.classList.add('nav-open');
@@ -3646,22 +3661,26 @@
     function closeMenu() {
       btn.classList.remove('is-open');
       btn.setAttribute('aria-expanded', 'false');
-      overlay.classList.remove('is-open');
       menu.classList.remove('is-open');
       menu.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('nav-open');
     }
 
-    /* ── burger click ── */
+    /* Burger click */
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
       btn.classList.contains('is-open') ? closeMenu() : openMenu();
     });
 
-    /* ── overlay click → ferme ── */
-    overlay.addEventListener('click', closeMenu);
+    /* Overlay click (pour compatibilité) */
+    if (overlay) overlay.addEventListener('click', closeMenu);
 
-    /* ── clic sur lien → ferme + scroll smooth ── */
+    /* Clic sur le fond du menu lui-même (hors inner) */
+    menu.addEventListener('click', function (e) {
+      if (e.target === menu) closeMenu();
+    });
+
+    /* Liens → ferme + scroll */
     menu.querySelectorAll('[data-close-nav]').forEach(function (el) {
       el.addEventListener('click', function (e) {
         var href = el.getAttribute('href');
@@ -3672,30 +3691,16 @@
           if (target) {
             setTimeout(function () {
               target.scrollIntoView({ behavior: 'smooth' });
-            }, 350);
+            }, 320);
           }
         }
       });
     });
 
-    /* ── touche Escape ── */
+    /* Escape */
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && btn.classList.contains('is-open')) {
-        closeMenu();
-      }
+      if (e.key === 'Escape' && btn.classList.contains('is-open')) closeMenu();
     });
-
-    /* ── swipe gauche → ferme (support tactile natif) ── */
-    var startX = null;
-    menu.addEventListener('touchstart', function (e) {
-      startX = e.touches[0].clientX;
-    }, { passive: true });
-    menu.addEventListener('touchend', function (e) {
-      if (startX === null) return;
-      var dx = e.changedTouches[0].clientX - startX;
-      if (dx > 60) closeMenu();   /* swipe right = ferme */
-      startX = null;
-    }, { passive: true });
 
   })();
   </script>
