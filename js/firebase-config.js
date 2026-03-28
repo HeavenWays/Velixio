@@ -13,11 +13,11 @@ const FIREBASE_CONFIG = {
 
 /* ─── Initialisation Firebase (SDK v9 compat) ─── */
 const firebaseApp = firebase.initializeApp(FIREBASE_CONFIG);
-const db          = firebase.firestore();
-const auth        = firebase.auth();
+var db          = firebase.firestore();
+var auth        = firebase.auth();
 
 /* ─── Collection principale ─── */
-const CONTACTS_COL = 'contacts';
+var CONTACTS_COL = 'contacts';
 
 /* ─── Rate limiting côté client (anti-spam) ─── */
 const RATE_LIMIT = {
