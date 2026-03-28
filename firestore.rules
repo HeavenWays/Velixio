@@ -1,0 +1,33 @@
+// ════════════════════════════════════════════════════════════════════
+// firestore.rules — Règles de sécurité Firestore
+// À copier dans Firebase Console → Firestore → Rules
+// ════════════════════════════════════════════════════════════════════
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Collection contacts (formulaire site) ──────────────────────
+    // Écriture publique (formulaire contact), lecture uniquement auth
+    match /contacts/{docId} {
+      // N'importe qui peut créer un contact (formulaire public)
+      // mais ne peut lire/modifier/supprimer qu'un admin connecté
+      allow create: if
+        request.resource.data.keys().hasAll(['name','email','message','created_at','status']) &&
+        request.resource.data.email is string &&
+        request.resource.data.email.size() <= 200 &&
+        request.resource.data.message is string &&
+        request.resource.data.message.size() <= 2000 &&
+        request.resource.data.name is string &&
+        request.resource.data.name.size() <= 100 &&
+        request.resource.data.status == 'new';
+
+      allow read, update, delete: if request.auth != null;
+    }
+
+    // ── Tout le reste est refusé par défaut ───────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
