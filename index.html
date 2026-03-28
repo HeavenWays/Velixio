@@ -3639,28 +3639,32 @@
 
   <script src="js/main.js" defer></script>
 
-  <!-- ═══ BURGER MENU — Script garanti ═══ -->
+  <!-- ═══ BURGER MENU ═══ -->
   <script>
-  (function () {
-    'use strict';
-
+  document.addEventListener('DOMContentLoaded', function () {
     var btn     = document.getElementById('nav-hamburger');
     var menu    = document.getElementById('nav-mobile-menu');
     var overlay = document.getElementById('nav-mobile-overlay');
 
-    if (!btn || !menu) return;
+    if (!btn || !menu) { console.warn('[Burger] Éléments introuvables'); return; }
+
+    var isOpen = false;
 
     function openMenu() {
+      isOpen = true;
       btn.classList.add('is-open');
       btn.setAttribute('aria-expanded', 'true');
+      btn.setAttribute('aria-label', 'Fermer le menu');
       menu.classList.add('is-open');
       menu.setAttribute('aria-hidden', 'false');
       document.body.classList.add('nav-open');
     }
 
     function closeMenu() {
+      isOpen = false;
       btn.classList.remove('is-open');
       btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Ouvrir le menu');
       menu.classList.remove('is-open');
       menu.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('nav-open');
@@ -3668,19 +3672,20 @@
 
     /* Burger click */
     btn.addEventListener('click', function (e) {
+      e.preventDefault();
       e.stopPropagation();
-      btn.classList.contains('is-open') ? closeMenu() : openMenu();
+      isOpen ? closeMenu() : openMenu();
     });
 
-    /* Overlay click (pour compatibilité) */
+    /* Overlay click */
     if (overlay) overlay.addEventListener('click', closeMenu);
 
-    /* Clic sur le fond du menu lui-même (hors inner) */
+    /* Clic sur le fond du menu (hors contenu) */
     menu.addEventListener('click', function (e) {
       if (e.target === menu) closeMenu();
     });
 
-    /* Liens → ferme + scroll */
+    /* Liens avec data-close-nav → ferme + scroll smooth */
     menu.querySelectorAll('[data-close-nav]').forEach(function (el) {
       el.addEventListener('click', function (e) {
         var href = el.getAttribute('href');
@@ -3691,18 +3696,18 @@
           if (target) {
             setTimeout(function () {
               target.scrollIntoView({ behavior: 'smooth' });
-            }, 320);
+            }, 340);
           }
         }
       });
     });
 
-    /* Escape */
+    /* Touche Escape */
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && btn.classList.contains('is-open')) closeMenu();
+      if (e.key === 'Escape' && isOpen) closeMenu();
     });
 
-  })();
+  });
   </script>
 
 </body>
