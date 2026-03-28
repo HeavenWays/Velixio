@@ -183,6 +183,208 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="js/firebase-config.js"></script>
+
+  <!-- ═══ MENU MOBILE ═══ -->
+  <style>
+    /* === HAMBURGER === */
+    #nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 42px; height: 42px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 0;
+      z-index: 200;
+      flex-shrink: 0;
+    }
+    #nav-hamburger span {
+      display: block;
+      width: 20px; height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: transform .28s, opacity .2s;
+      pointer-events: none;
+    }
+    @media (max-width: 900px) {
+      #nav-hamburger { display: flex; }
+    }
+
+    /* === OVERLAY === */
+    #mob-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: rgba(0,0,0,.7);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .32s, visibility .32s;
+      cursor: pointer;
+    }
+    #mob-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* === DRAWER === */
+    #mob-menu {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: min(82vw, 320px);
+      z-index: 9100;
+      background: #0c0c13;
+      border-left: 2px solid rgba(201,162,39,.45);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 0;
+      overflow-y: auto;
+      transform: translateX(100%);
+      visibility: hidden;
+      transition: transform .36s cubic-bezier(.22,1,.36,1), visibility .36s;
+    }
+    #mob-menu.open {
+      transform: translateX(0);
+      visibility: visible;
+    }
+
+    /* === HEADER DU DRAWER === */
+    #mob-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 20px 16px 24px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      flex-shrink: 0;
+    }
+    #mob-logo {
+      font-family: var(--ffd, 'Plus Jakarta Sans', sans-serif);
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: rgba(255,255,255,.5);
+      letter-spacing: -.03em;
+    }
+    #mob-logo span { color: #c9a227; }
+    #mob-close {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 7px;
+      color: #fff;
+      font-size: .9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s;
+      flex-shrink: 0;
+      padding: 0;
+      line-height: 1;
+    }
+    #mob-close:hover { background: rgba(201,162,39,.2); }
+
+    /* === LIENS === */
+    #mob-links {
+      display: flex;
+      flex-direction: column;
+      padding: 8px 0;
+      flex: 1;
+    }
+    .mob-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 17px 24px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: rgba(248,248,246,.7);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      transition: color .18s, background .18s, padding-left .18s;
+      letter-spacing: -.01em;
+    }
+    .mob-link:last-child { border-bottom: none; }
+    .mob-link:hover {
+      color: #fff;
+      background: rgba(255,255,255,.04);
+      padding-left: 30px;
+    }
+    .mob-link .mob-arrow {
+      margin-left: auto;
+      opacity: .3;
+      font-size: .85rem;
+      transition: opacity .18s, transform .18s;
+    }
+    .mob-link:hover .mob-arrow {
+      opacity: .7;
+      transform: translateX(3px);
+    }
+
+    /* === CTA === */
+    #mob-cta-wrap {
+      padding: 20px 24px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      flex-shrink: 0;
+    }
+    .mob-cta {
+      display: block;
+      padding: 15px 20px;
+      background: #c9a227;
+      color: #000 !important;
+      font-weight: 900;
+      font-size: .95rem;
+      text-align: center;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 4px 18px rgba(201,162,39,.35);
+      transition: background .2s, transform .15s;
+    }
+    .mob-cta:hover {
+      background: #dbb230;
+      transform: translateY(-1px);
+    }
+
+    /* === FOOTER CONTACT === */
+    #mob-footer {
+      padding: 16px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    #mob-footer a {
+      font-size: .78rem;
+      color: rgba(248,248,246,.28);
+      text-decoration: none;
+      transition: color .18s;
+    }
+    #mob-footer a:hover { color: #c9a227; }
+
+    /* === ANIMATIONS ENTRÉE === */
+    #mob-menu.open .mob-link {
+      animation: mobIn .38s cubic-bezier(.22,1,.36,1) both;
+    }
+    #mob-menu.open #mob-links a:nth-child(1) { animation-delay: .04s; }
+    #mob-menu.open #mob-links a:nth-child(2) { animation-delay: .09s; }
+    #mob-menu.open #mob-links a:nth-child(3) { animation-delay: .14s; }
+    #mob-menu.open #mob-links a:nth-child(4) { animation-delay: .19s; }
+    #mob-menu.open #mob-links a:nth-child(5) { animation-delay: .24s; }
+    #mob-menu.open #mob-cta-wrap { animation: mobIn .38s .28s cubic-bezier(.22,1,.36,1) both; }
+    @keyframes mobIn {
+      from { opacity: 0; transform: translateX(16px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Body lock */
+    body.mob-open { overflow: hidden; }
+  </style>
 </head>
 
 <body>
@@ -228,44 +430,28 @@
     </button>
   </nav>
 
-  <!-- Overlay mobile (non utilisé visuellement, gardé pour compatibilité JS) -->
-  <div class="nav-mobile-overlay" id="nav-mobile-overlay"></div>
-
-  <!-- Menu mobile PLEIN ÉCRAN -->
-  <nav class="nav-mobile-menu" id="nav-mobile-menu" aria-label="Menu mobile" aria-hidden="true">
-    <div class="nav-mobile-inner">
-
-      <!-- Logo -->
-      <div class="nav-mobile-logo">Velix<span>io</span></div>
-
-      <!-- Liens principaux -->
-      <a href="#services"   class="nm-link" data-close-nav>Services</a>
-      <a href="#portfolio"  class="nm-link" data-close-nav>Réalisations</a>
-      <a href="#pricing"    class="nm-link" data-close-nav>Tarifs</a>
-      <a href="#about"      class="nm-link" data-close-nav>À propos</a>
-      <a href="#contact"    class="nm-link" data-close-nav>Contact</a>
-
-      <!-- Sous-section À propos -->
-      <div class="nav-mobile-submenu">
-        <div class="nav-mobile-submenu-label">À propos</div>
-        <a href="#about" data-close-nav>Qui sommes-nous</a>
-        <a href="#vs"    data-close-nav>Pourquoi nous</a>
-        <a href="#how"   data-close-nav>Notre méthode</a>
-      </div>
-
-      <!-- CTA principal -->
-      <a href="#pricing" class="nav-mobile-cta" data-close-nav>
-        🚀 Démarrer mon projet
-      </a>
-
-      <!-- Contact rapide -->
-      <div class="nav-mobile-contact">
-        <a href="tel:+212674323871">+212 674 32 38 71</a><br>
-        <a href="https://wa.me/212674323871" target="_blank" rel="noopener">WhatsApp direct</a>
-      </div>
-
+  <!-- MENU MOBILE -->
+  <div id="mob-overlay"></div>
+  <div id="mob-menu" role="dialog" aria-modal="true" aria-label="Menu navigation">
+    <div id="mob-header">
+      <div id="mob-logo">Velix<span>io</span></div>
+      <button id="mob-close" aria-label="Fermer le menu">&#x2715;</button>
     </div>
-  </nav>
+    <div id="mob-links">
+      <a href="#services"  class="mob-link" data-nav>Services <span class="mob-arrow">›</span></a>
+      <a href="#portfolio" class="mob-link" data-nav>Réalisations <span class="mob-arrow">›</span></a>
+      <a href="#pricing"   class="mob-link" data-nav>Tarifs <span class="mob-arrow">›</span></a>
+      <a href="#about"     class="mob-link" data-nav>À propos <span class="mob-arrow">›</span></a>
+      <a href="#contact"   class="mob-link" data-nav>Contact <span class="mob-arrow">›</span></a>
+    </div>
+    <div id="mob-cta-wrap">
+      <a href="#pricing" class="mob-cta" data-nav>🚀 Démarrer mon projet</a>
+    </div>
+    <div id="mob-footer">
+      <a href="tel:+212674323871">+212 674 32 38 71</a>
+      <a href="https://wa.me/212674323871" target="_blank" rel="noopener">WhatsApp direct</a>
+    </div>
+  </div>
 
   <!-- MODAL DÉMARRER VERSION ILLUSTRÉE -->
   <div id="start-modal">
@@ -3641,73 +3827,54 @@
 
   <!-- ═══ BURGER MENU ═══ -->
   <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var btn     = document.getElementById('nav-hamburger');
-    var menu    = document.getElementById('nav-mobile-menu');
-    var overlay = document.getElementById('nav-mobile-overlay');
+  (function() {
+    function init() {
+      var btn     = document.getElementById('nav-hamburger');
+      var closeBtn= document.getElementById('mob-close');
+      var menu    = document.getElementById('mob-menu');
+      var overlay = document.getElementById('mob-overlay');
 
-    if (!btn || !menu) { console.warn('[Burger] Éléments introuvables'); return; }
+      if (!btn || !menu) { console.error('[Menu] Éléments manquants'); return; }
 
-    var isOpen = false;
+      function open() {
+        menu.classList.add('open');
+        overlay.classList.add('open');
+        document.body.classList.add('mob-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+      function close() {
+        menu.classList.remove('open');
+        overlay.classList.remove('open');
+        document.body.classList.remove('mob-open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
 
-    function openMenu() {
-      isOpen = true;
-      btn.classList.add('is-open');
-      btn.setAttribute('aria-expanded', 'true');
-      btn.setAttribute('aria-label', 'Fermer le menu');
-      menu.classList.add('is-open');
-      menu.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('nav-open');
-    }
+      btn.addEventListener('click', open);
+      closeBtn.addEventListener('click', close);
+      overlay.addEventListener('click', close);
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') close(); });
 
-    function closeMenu() {
-      isOpen = false;
-      btn.classList.remove('is-open');
-      btn.setAttribute('aria-expanded', 'false');
-      btn.setAttribute('aria-label', 'Ouvrir le menu');
-      menu.classList.remove('is-open');
-      menu.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('nav-open');
-    }
-
-    /* Burger click */
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      isOpen ? closeMenu() : openMenu();
-    });
-
-    /* Overlay click */
-    if (overlay) overlay.addEventListener('click', closeMenu);
-
-    /* Clic sur le fond du menu (hors contenu) */
-    menu.addEventListener('click', function (e) {
-      if (e.target === menu) closeMenu();
-    });
-
-    /* Liens avec data-close-nav → ferme + scroll smooth */
-    menu.querySelectorAll('[data-close-nav]').forEach(function (el) {
-      el.addEventListener('click', function (e) {
-        var href = el.getAttribute('href');
-        closeMenu();
-        if (href && href.charAt(0) === '#') {
-          e.preventDefault();
-          var target = document.getElementById(href.slice(1));
-          if (target) {
-            setTimeout(function () {
-              target.scrollIntoView({ behavior: 'smooth' });
-            }, 340);
+      document.querySelectorAll('[data-nav]').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+          var href = el.getAttribute('href');
+          close();
+          if (href && href[0] === '#') {
+            e.preventDefault();
+            setTimeout(function() {
+              var t = document.getElementById(href.slice(1));
+              if (t) t.scrollIntoView({ behavior: 'smooth' });
+            }, 380);
           }
-        }
+        });
       });
-    });
 
-    /* Touche Escape */
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && isOpen) closeMenu();
-    });
+      console.log('[Menu] OK ✓');
+    }
 
-  });
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else { init(); }
+  })();
   </script>
 
 </body>
