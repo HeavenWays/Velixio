@@ -414,18 +414,18 @@
       function animateVS() {
         // Cartes
         document.querySelectorAll('.vs-card').forEach(function (card, i) {
-          setTimeout(function () { card.classList.add('vx-in'); }, i * 200);
+          setTimeout(function () { card.classList.add('vx-in'); }, i * 350);
         });
         // Badge VS
         var badge = document.querySelector('.vs-vs-badge');
-        if (badge) setTimeout(function () { badge.classList.add('vx-in'); }, 100);
+        if (badge) setTimeout(function () { badge.classList.add('vx-in'); }, 200);
         // Items avec stagger
         document.querySelectorAll('.vs-item').forEach(function (item, i) {
-          setTimeout(function () { item.classList.add('vx-in'); }, 300 + i * 80);
+          setTimeout(function () { item.classList.add('vx-in'); }, 450 + i * 130);
         });
         // Proof items
         document.querySelectorAll('.vs-proof-item').forEach(function (item, i) {
-          setTimeout(function () { item.classList.add('vx-in'); }, 200 + i * 90);
+          setTimeout(function () { item.classList.add('vx-in'); }, 300 + i * 150);
         });
       }
       var vsSection = document.getElementById('vs');

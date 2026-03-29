@@ -5139,6 +5139,15 @@
       background: var(--bg2);
     }
 
+    /* Contact section — reveal plus lent et fluide */
+    #contact .rv,
+    #contact .rv-left,
+    #contact .rv-right,
+    #contact .rv-scale {
+      transition-duration: 1s, 1s !important;
+      transition-delay: 0.15s !important;
+    }
+
     #portfolio,
     #engagements,
     #how,
@@ -7889,7 +7898,7 @@
     .vs-item {
       opacity: 0;
       transform: translateX(-18px);
-      transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1),
+      transition: opacity .85s ease, transform .85s cubic-bezier(.22,1,.36,1),
                   background .25s ease, border-color .25s ease !important;
     }
     .vs-card.good .vs-item {
@@ -7915,7 +7924,7 @@
     .vs-card {
       opacity: 0;
       transform: translateY(30px);
-      transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1),
+      transition: opacity .9s ease, transform .9s cubic-bezier(.22,1,.36,1),
                   box-shadow .4s ease, border-color .3s ease !important;
     }
     .vs-card.vx-in {
