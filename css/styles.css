@@ -2621,6 +2621,8 @@
       display: flex;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      padding-bottom: 3rem;
       transition: opacity .3s, visibility .3s;
     }
 
@@ -2658,7 +2660,7 @@
       width: 100%;
       box-shadow: 0 0 0 1px rgba(255, 255, 255, .04), 0 50px 120px rgba(0, 0, 0, .8), 0 0 100px rgba(200, 160, 32, .06);
       animation: modal-in .4s cubic-bezier(.175, .885, .32, 1.275);
-      margin: auto;
+      margin: 0 auto;
       flex-shrink: 0;
     }
 
@@ -3405,7 +3407,7 @@
       }
 
       #start-modal {
-        padding: .5rem;
+        padding: .5rem .5rem 4rem;
         align-items: flex-start;
       }
     }
