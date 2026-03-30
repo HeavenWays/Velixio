@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: https://heavenways.github.io/Velixio/sitemap.xml
+Sitemap: https://velixio.ma/sitemap.xml

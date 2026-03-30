@@ -4659,6 +4659,16 @@
     }
 
     /*  Titre hero gradient animé  */
+    .hero-brand-name {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--gold) 0%, var(--gold2) 40%, var(--gold3) 60%, var(--gold) 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: goldShimmer 8s ease-in-out infinite;
+      font-weight: 900;
+    }
     .line-gold {
       background: linear-gradient(90deg, var(--gold) 0%, var(--gold2) 30%, var(--gold3) 50%, var(--gold2) 70%, var(--gold) 100%);
       background-size: 250% 100%;
