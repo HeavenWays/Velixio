@@ -12,7 +12,7 @@ function startClock() {
 }
 
 /* ── Navigation ── */
-const VIEW_TITLES = { overview:'Vue d\'ensemble', monitor:'Monitoring du site', messages:'Messages de contact', settings:'Paramètres' };
+const VIEW_TITLES = { overview:'Vue d\'ensemble', monitor:'Monitoring du site', messages:'Messages de contact', analytics:'Analytics', settings:'Paramètres' };
 
 function gotoView(v, el) {
   document.querySelectorAll('.view').forEach(x => x.classList.remove('active'));
@@ -24,6 +24,7 @@ function gotoView(v, el) {
   if (v === 'monitor')   loadMonitorView();
   if (v === 'messages')  loadMessages();
   if (v === 'settings')  loadSettings();
+  if (v === 'analytics') loadAnalytics();
 }
 
 /* ── Paramètres ── */

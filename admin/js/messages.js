@@ -221,7 +221,7 @@ function renderMsgList(messages) {
   container.innerHTML = messages.map(m => {
     const plan = getPlanInfo(m.plan);
     return `
-    <button type="button" class="msg-item ${m.status === 'new' ? 'unread' : ''} ${activeMsg === m.id ? 'active' : ''}" onclick="openMsg(${m.id})">
+    <button type="button" class="msg-item ${m.status === 'new' ? 'unread' : ''} ${activeMsg === m.id ? 'active' : ''}" onclick="openMsg('${m.id}')">
       <div class="msg-item-top">
         <div class="msg-item-person">
           <div class="msg-avatar">${esc(getInitials(m.name))}</div>
@@ -415,7 +415,7 @@ function renderMessageDetail(id, markRead = false) {
             <div class="msg-card-title">Historique client</div>
             <div class="msg-history">
               ${history.length ? history.map(item => `
-                <button type="button" class="msg-history-item ${item.id === m.id ? 'current' : ''}" onclick="openMsg(${item.id})">
+                <button type="button" class="msg-history-item ${item.id === m.id ? 'current' : ''}" onclick="openMsg('${item.id}')">
                   <div class="msg-history-head">
                     <div class="msg-history-subj">${esc(item.subject || 'Demande sans objet')}</div>
                     <div class="msg-item-time">${fmtRelative(item.created_at)}</div>
@@ -435,15 +435,15 @@ function renderMessageDetail(id, markRead = false) {
       <div class="msg-actions-footer">
         <div class="msg-status-group">
           <span class="msg-info-label">Statut</span>
-          <select class="status-select msg-select" onchange="updateMsgStatus(${m.id}, this.value)">
+          <select class="status-select msg-select" onchange="updateMsgStatus('${m.id}', this.value)">
             <option value="new"      ${m.status==='new'      ? 'selected':''}>Nouveau</option>
             <option value="read"     ${m.status==='read'     ? 'selected':''}>Lu</option>
             <option value="replied"  ${m.status==='replied'  ? 'selected':''}>Répondu</option>
             <option value="archived" ${m.status==='archived' ? 'selected':''}>Archivé</option>
           </select>
-          <button class="btn btn-ghost" onclick="updateMsgStatus(${m.id},'replied')">${icoCheck} Marquer répondu</button>
+          <button class="btn btn-ghost" onclick="updateMsgStatus('${m.id}','replied')">${icoCheck} Marquer répondu</button>
         </div>
-        <button class="btn btn-danger" onclick="deleteMsg(${m.id})">${icoTrash} Supprimer</button>
+        <button class="btn btn-danger" onclick="deleteMsg('${m.id}')">${icoTrash} Supprimer</button>
       </div>
     </div>`;
 }

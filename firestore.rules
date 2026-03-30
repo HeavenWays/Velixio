@@ -8,10 +8,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // ── Collection contacts (formulaire site) ──────────────────────
-    // Écriture publique (formulaire contact), lecture uniquement auth
     match /contacts/{docId} {
-      // N'importe qui peut créer un contact (formulaire public)
-      // mais ne peut lire/modifier/supprimer qu'un admin connecté
       allow create: if
         request.resource.data.keys().hasAll(['name','email','message','created_at','status']) &&
         request.resource.data.email is string &&
@@ -21,8 +18,19 @@ service cloud.firestore {
         request.resource.data.name is string &&
         request.resource.data.name.size() <= 100 &&
         request.resource.data.status == 'new';
-
       allow read, update, delete: if request.auth != null;
+    }
+
+    // ── Collection site_analytics (tracking visiteurs) ─────────────
+    // Écriture publique limitée, lecture uniquement admin
+    match /site_analytics/{docId} {
+      allow create: if
+        request.resource.data.keys().hasAny(['type','visitor_id','created_at_iso']) &&
+        request.resource.data.type is string &&
+        request.resource.data.type in ['visit','click'] &&
+        request.resource.data.visitor_id is string &&
+        request.resource.data.visitor_id.size() <= 60;
+      allow read, delete: if request.auth != null;
     }
 
     // ── Tout le reste est refusé par défaut ───────────────────────
