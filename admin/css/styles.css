@@ -488,48 +488,184 @@ pre { font-family:var(--ffm); font-size:12.5px; color:var(--muted); line-height:
 }
 
 /* ════════════════════ ANALYTICS ════════════════════ */
+
+/* ── Période buttons ── */
+.an-period-bar { display:flex; align-items:center; gap:.6rem; margin-bottom:1.8rem; flex-wrap:wrap }
+.an-period-bar .panel-title { margin:0; margin-right:.4rem }
+.btn-period {
+  padding:6px 14px; border-radius:99px; border:1px solid var(--border2);
+  background:transparent; color:var(--muted); font-size:.78rem; font-weight:500;
+  cursor:pointer; transition:all .2s; letter-spacing:.02em;
+}
+.btn-period:hover { border-color:var(--gold-border); color:var(--white) }
+.btn-period.active {
+  background:var(--gold-soft); border-color:var(--gold-border);
+  color:var(--gold2); font-weight:600;
+}
+.btn-refresh {
+  margin-left:auto; padding:6px 14px; border-radius:8px;
+  border:1px solid var(--border); background:var(--surface);
+  color:var(--muted); font-size:.78rem; cursor:pointer; transition:all .2s;
+  display:flex; align-items:center; gap:5px;
+}
+.btn-refresh:hover { background:var(--surface2); color:var(--white) }
+.btn-export {
+  padding:6px 14px; border-radius:8px;
+  border:1px solid var(--border); background:var(--surface);
+  color:var(--muted); font-size:.78rem; cursor:pointer; transition:all .2s;
+  display:flex; align-items:center; gap:5px;
+}
+.btn-export:hover { background:var(--surface2); color:var(--white) }
+
+/* ── KPI Grid ── */
 .an-kpis {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
+@media (max-width:1100px) { .an-kpis { grid-template-columns: repeat(2,1fr) } }
+
 .an-kpi {
-  background: var(--panel);
+  background: var(--bg2);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 1.2rem 1rem;
-  text-align: center;
+  border-radius: var(--r-md);
+  padding: 1.25rem 1.4rem;
+  display: flex; align-items: flex-start; gap: 1rem;
+  transition: border-color .2s, transform .2s;
 }
-.an-kpi-icon { font-size: 1.5rem; margin-bottom: .4rem; }
-.an-kpi-val  { font-size: 1.9rem; font-weight: 800; line-height: 1; margin-bottom: .4rem; }
+.an-kpi:hover { border-color: var(--border2); transform: translateY(-2px) }
+.an-kpi-icon-wrap {
+  width:40px; height:40px; border-radius:10px;
+  display:grid; place-items:center; font-size:1.1rem; flex-shrink:0;
+}
+.an-kpi-body { min-width:0 }
+.an-kpi-val  { font-size: 1.75rem; font-weight: 800; line-height: 1.1; margin-bottom: .2rem; }
 .an-kpi-label{ font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
-
-.an-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: .45rem 0;
-  border-bottom: 1px solid rgba(255,255,255,.05);
-  font-size: .85rem;
+.an-kpi-delta {
+  font-size:.7rem; font-weight:600; margin-top:.25rem;
+  display:inline-flex; align-items:center; gap:2px;
 }
-.an-row:last-child { border-bottom: none; }
-.an-row-label { color: var(--text); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.an-row-val   { font-weight: 700; color: var(--gold); margin-left: .8rem; flex-shrink: 0; }
-.an-empty     { color: var(--muted); font-size: .85rem; padding: .5rem 0; }
+.an-kpi-delta.up   { color:#4ade80 }
+.an-kpi-delta.down { color:#f87171 }
+.an-kpi-delta.neu  { color:var(--muted) }
 
+/* ── Grilles de charts ── */
+.an-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-bottom:1.2rem }
+.an-grid-3 { display:grid; grid-template-columns:2fr 1fr; gap:1.2rem; margin-bottom:1.2rem }
+@media (max-width:900px) {
+  .an-grid-2, .an-grid-3 { grid-template-columns:1fr }
+}
+
+/* ── Panels analytics ── */
+.an-panel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.an-panel-head {
+  padding: 1.1rem 1.4rem;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap:.8rem;
+}
+.an-panel-title {
+  font-size:.82rem; font-weight:600; color:var(--white);
+  text-transform:uppercase; letter-spacing:.06em;
+}
+.an-panel-sub { font-size:.72rem; color:var(--muted) }
+.an-panel-body { padding:1.4rem }
+.an-chart-wrap { position:relative }
+
+/* ── Barre de progression ── */
+.an-bar-row { margin-bottom:.85rem }
+.an-bar-row:last-child { margin-bottom:0 }
+.an-bar-meta { display:flex; justify-content:space-between; align-items:center; margin-bottom:.3rem }
+.an-bar-label { font-size:.82rem; color:var(--white); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.an-bar-val   { font-size:.8rem; font-weight:700; color:var(--gold); margin-left:.6rem; flex-shrink:0 }
+.an-bar-track { height:5px; background:var(--surface2); border-radius:99px; overflow:hidden }
+.an-bar-fill  { height:100%; border-radius:99px; background:linear-gradient(90deg,var(--gold),var(--gold2)); transition:width .6s cubic-bezier(.34,1.56,.64,1) }
+.an-bar-fill.blue  { background:linear-gradient(90deg,#3b82f6,#7dd3fc) }
+.an-bar-fill.green { background:linear-gradient(90deg,#16a34a,#4ade80) }
+.an-bar-fill.purple{ background:linear-gradient(90deg,#7c3aed,#c4b5fd) }
+
+/* ── Funnel ── */
+.an-funnel { display:flex; flex-direction:column; gap:.7rem }
+.an-funnel-step {
+  display:flex; align-items:center; gap:1rem;
+  padding:.8rem 1rem; border-radius:10px;
+  border:1px solid var(--border); background:var(--surface);
+  position:relative; overflow:hidden;
+}
+.an-funnel-fill {
+  position:absolute; left:0; top:0; bottom:0;
+  background:var(--gold-soft); border-right:2px solid var(--gold-border);
+  transition:width .8s cubic-bezier(.34,1.56,.64,1);
+}
+.an-funnel-icon { font-size:1rem; z-index:1; flex-shrink:0 }
+.an-funnel-label { font-size:.82rem; color:var(--white); flex:1; z-index:1 }
+.an-funnel-count { font-size:1rem; font-weight:700; color:var(--gold2); z-index:1; flex-shrink:0 }
+.an-funnel-rate  { font-size:.7rem; color:var(--muted); z-index:1; margin-left:.4rem }
+.an-funnel-arrow { color:var(--muted2); font-size:.7rem; text-align:center; padding:.1rem 0 }
+
+/* ── Heatmap heures ── */
+.an-heat-grid {
+  display:grid; grid-template-columns:repeat(24,1fr); gap:3px; margin-top:.5rem;
+}
+.an-heat-cell {
+  height:28px; border-radius:4px;
+  background:var(--surface2);
+  transition:background .3s;
+  cursor:default; position:relative;
+}
+.an-heat-labels {
+  display:grid; grid-template-columns:repeat(24,1fr);
+  gap:3px; margin-top:4px;
+}
+.an-heat-labels span {
+  text-align:center; font-size:9px; color:var(--muted2);
+}
+
+/* ── Tableau ── */
+.an-table-wrap { overflow-x:auto }
 .an-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
 .an-table th {
-  text-align: left; padding: .5rem .8rem;
+  text-align: left; padding: .6rem 1rem;
   color: var(--muted); font-weight: 600;
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
-  font-size: .72rem; text-transform: uppercase; letter-spacing: .07em;
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .08em;
+  white-space:nowrap;
 }
 .an-table td {
-  padding: .55rem .8rem;
+  padding: .6rem 1rem;
   border-bottom: 1px solid rgba(255,255,255,.04);
-  color: var(--text);
+  color: var(--white);
   vertical-align: middle;
 }
 .an-table tr:last-child td { border-bottom: none; }
-.an-table tr:hover td { background: rgba(255,255,255,.03); }
+.an-table tr:hover td { background: rgba(255,255,255,.025); }
+.an-table .mono { font-family:monospace; font-size:.72rem; color:rgba(255,255,255,.35) }
+.an-table .muted { color:var(--muted) }
+
+/* ── État vide ── */
+.an-empty {
+  padding:2.5rem 1rem; text-align:center;
+  color:var(--muted); font-size:.85rem;
+  display:flex; flex-direction:column; align-items:center; gap:.5rem;
+}
+.an-empty-ico { font-size:1.8rem; opacity:.4 }
+
+/* ── Rows list ── */
+.an-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: .5rem 0; border-bottom: 1px solid rgba(255,255,255,.04);
+  font-size: .85rem; gap:.8rem;
+}
+.an-row:last-child { border-bottom: none; }
+.an-row-label { color: var(--white); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.an-row-val   { font-weight: 700; color: var(--gold); flex-shrink: 0; }
+
+/* ── Skeleton loader ── */
+.an-skeleton { border-radius:8px; background:var(--surface2); animation:an-pulse 1.4s ease infinite }
+@keyframes an-pulse { 0%,100%{opacity:.4} 50%{opacity:.8} }

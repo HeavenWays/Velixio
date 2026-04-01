@@ -4659,6 +4659,13 @@
     }
 
     /*  Titre hero gradient animé  */
+    .hero-brand {
+      font-size: .72em;
+      font-weight: 500;
+      color: var(--gold2);
+      letter-spacing: .01em;
+      opacity: .85;
+    }
     .line-gold {
       background: linear-gradient(90deg, var(--gold) 0%, var(--gold2) 30%, var(--gold3) 50%, var(--gold2) 70%, var(--gold) 100%);
       background-size: 250% 100%;

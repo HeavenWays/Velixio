@@ -43,45 +43,77 @@
   }
 
   /* ── Enregistrer une visite ── */
+  var visitDocId = null;
+  var pageStart  = Date.now();
+
   function trackVisit() {
     try {
       var src = getSource();
       db.collection('site_analytics').add({
-        type:       'visit',
-        visitor_id: getVisitorId(),
-        page:       window.location.pathname,
-        device:     getDevice(),
-        referrer:   src.referrer,
-        utm_source:   src.utm_source,
-        utm_medium:   src.utm_medium,
-        utm_campaign: src.utm_campaign,
-        screen_w:   screen.width,
-        screen_h:   screen.height,
-        lang:       navigator.language || '',
-        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+        type:           'visit',
+        visitor_id:     getVisitorId(),
+        page:           window.location.pathname,
+        device:         getDevice(),
+        referrer:       src.referrer,
+        utm_source:     src.utm_source,
+        utm_medium:     src.utm_medium,
+        utm_campaign:   src.utm_campaign,
+        screen_w:       screen.width,
+        screen_h:       screen.height,
+        lang:           navigator.language || '',
+        time_on_page:   0,
+        created_at:     firebase.firestore.FieldValue.serverTimestamp(),
         created_at_iso: new Date().toISOString(),
+      }).then(function (ref) {
+        visitDocId = ref.id;
       });
     } catch (e) { /* silencieux */ }
+  }
+
+  /* ── Mettre à jour le temps passé sur la page ── */
+  function flushDuration() {
+    if (!visitDocId) return;
+    try {
+      var seconds = Math.round((Date.now() - pageStart) / 1000);
+      if (seconds < 1) return;
+      db.collection('site_analytics').doc(visitDocId).update({
+        time_on_page: seconds
+      });
+    } catch (e) { /* silencieux */ }
+  }
+
+  /* ── Tracker la durée via visibilitychange + beforeunload ── */
+  function attachDurationTracker() {
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') { flushDuration(); }
+    });
+    window.addEventListener('beforeunload', flushDuration);
+    /* Mise à jour périodique toutes les 30s (utilisateurs longue durée) */
+    setInterval(flushDuration, 30000);
   }
 
   /* ── Enregistrer un clic sur élément clé ── */
   function trackClick(label, target) {
     try {
       db.collection('site_analytics').add({
-        type:       'click',
-        visitor_id: getVisitorId(),
-        label:      label,
-        target:     target || '',
-        page:       window.location.pathname,
-        device:     getDevice(),
-        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+        type:           'click',
+        visitor_id:     getVisitorId(),
+        label:          label,
+        target:         target || '',
+        page:           window.location.pathname,
+        device:         getDevice(),
+        created_at:     firebase.firestore.FieldValue.serverTimestamp(),
         created_at_iso: new Date().toISOString(),
       });
     } catch (e) { /* silencieux */ }
   }
 
-  /* ── Attacher les listeners de clics ── */
+  /* ── Attacher les listeners de clics (une seule fois) ── */
+  var clicksAttached = false;
   function attachClickTrackers() {
+    if (clicksAttached) return;
+    clicksAttached = true;
+
     var selectors = [
       { sel: '.btn-primary',             label: 'CTA Démarrer projet' },
       { sel: '[href="#pricing"]',        label: 'Clic Tarifs' },
@@ -114,6 +146,7 @@
   /* ── Démarrage ── */
   waitForFirebase(function () {
     trackVisit();
+    attachDurationTracker();
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', attachClickTrackers);
     } else {

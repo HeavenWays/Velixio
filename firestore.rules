@@ -30,6 +30,12 @@ service cloud.firestore {
         request.resource.data.type in ['visit','click'] &&
         request.resource.data.visitor_id is string &&
         request.resource.data.visitor_id.size() <= 60;
+      // Mise à jour limitée à time_on_page uniquement (tracking durée)
+      allow update: if
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['time_on_page']) &&
+        request.resource.data.time_on_page is int &&
+        request.resource.data.time_on_page >= 0 &&
+        request.resource.data.time_on_page <= 86400;
       allow read, delete: if request.auth != null;
     }
 
