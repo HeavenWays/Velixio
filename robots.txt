@@ -1,5 +1,14 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
+Disallow: /js/firebase-config.js
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
 
 Sitemap: https://heavenways.github.io/Velixio/sitemap.xml
