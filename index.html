@@ -541,80 +541,11 @@
       margin-bottom:.3rem;
       box-shadow: 0 0 8px rgba(201,162,39,.35);
     }
-    /* One Page horizontal card */
-    .plan-card.onepage-h {
-      grid-column: 1 / -1;
-      flex-direction: row;
-      align-items: stretch;
-      gap: 0;
-    }
-    .onepage-h .op-left {
-      min-width: 260px;
-      max-width: 260px;
-      padding: 2rem 2rem 2rem 2rem;
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: .5rem;
-    }
-    .onepage-h .op-middle {
-      flex: 1;
-      padding: 1.5rem 2rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: .5rem .5rem;
-      align-content: center;
-    }
-    .onepage-h .op-cta {
-      min-width: 180px;
-      max-width: 180px;
-      padding: 2rem 1.5rem;
-      border-left: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-    }
-    .onepage-h .op-label {
-      font-size:.68rem; font-weight:700; letter-spacing:.15em;
-      text-transform:uppercase; color:var(--muted); margin-bottom:.25rem;
-    }
-    .onepage-h .plan-price-row { margin:0; }
-    .onepage-h .plan-delivery {
-      font-size:.72rem; color:var(--muted);
-      background: rgba(255,255,255,.04);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: .3rem .6rem;
-      display: inline-block;
-      margin-top:.2rem;
-    }
-    .onepage-h .op-cta-note {
-      font-size:.68rem; color:var(--muted); text-align:center; line-height:1.5;
-    }
-    @media(max-width:900px){
-      .plan-card.onepage-h {
-        flex-direction:column;
-        grid-column: 1;
-      }
-      .onepage-h .op-left { min-width:unset; max-width:unset; border-right:none; border-bottom:1px solid var(--border);}
-      .onepage-h .op-middle { grid-template-columns:1fr; }
-      .onepage-h .op-cta { min-width:unset; max-width:unset; border-left:none; border-top:1px solid var(--border);}
-    }
+
     .plan-old-price {
-      font-size:.82rem; color:rgba(255,255,255,.55);
-      text-decoration:line-through; margin-bottom:.25rem;
-      font-weight:500; letter-spacing:.02em;
-      position:relative;
-    }
-    .plan-old-price::after {
-      content:'';
-      position:absolute; left:0; top:50%;
-      width:100%; height:1.5px;
-      background:rgba(255,80,80,.55);
-      transform:translateY(-50%);
+      font-size:.82rem; color:rgba(255,255,255,.45);
+      text-decoration:line-through; margin-bottom:.2rem;
+      font-weight:400; letter-spacing:.02em;
     }
   </style>
 </head>
@@ -2482,42 +2413,46 @@
       <div class="plans-grid">
 
         <!-- ONE PAGE -->
-        <div class="plan-card onepage-h">
-
-          <!-- LEFT: price info -->
-          <div class="op-left">
-            <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem">
-              <div class="plan-icon" style="margin:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
-              <div class="plan-name" style="margin:0">One Page</div>
-              <div class="plan-promo-badge" style="margin:0">−10%</div>
-            </div>
+        <div class="plan-card">
+          <div class="plan-top">
+            <div class="plan-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg></div>
+            <div class="plan-name">One Page</div>
+            <div class="plan-promo-badge">−10%</div>
             <div class="plan-old-price">3 400 MAD</div>
             <div class="plan-price-row">
               <span class="plan-currency">MAD</span>
               <span class="plan-price">3 060</span>
             </div>
             <div class="plan-eur">~ 310 € · paiement unique</div>
-            <div class="plan-delivery" style="margin-top:.6rem">Livraison en 3 jours ouvrés</div>
-            <div class="plan-for-text" style="font-size:.75rem;color:var(--muted);margin-top:.8rem;line-height:1.55">Auto-entrepreneurs &amp; freelances qui veulent une présence en ligne rapide sur une seule page impactante.</div>
+            <div class="plan-delivery">Livraison en 3 jours ouvrés</div>
           </div>
-
-          <!-- MIDDLE: features in 2 columns -->
-          <div class="op-middle">
+          <div class="plan-for">
+            <div class="plan-for-label">Idéal pour</div>
+            <div class="plan-for-text">Auto-entrepreneurs et freelances qui ont besoin d'une présence en ligne rapide et efficace sur une seule page.</div>
+          </div>
+          <div class="plan-features">
             <div class="plan-feature">
               <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div><div class="plan-feat-main">1 page longue optimisée</div><div class="plan-feat-sub">Accueil · Services · À propos · Contact</div></div>
+              <div><div class="plan-feat-main">1 page longue optimisée</div><div class="plan-feat-sub">Accueil · Services · À propos · Contact en une page</div></div>
             </div>
             <div class="plan-feature">
               <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div><div class="plan-feat-main">Design responsive</div><div class="plan-feat-sub">Mobile · tablette · ordinateur</div></div>
+              <div><div class="plan-feat-main">Design responsive</div><div class="plan-feat-sub">S'adapte mobile, tablette, ordinateur</div></div>
             </div>
             <div class="plan-feature">
               <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div><div class="plan-feat-main">Formulaire de contact</div><div class="plan-feat-sub">Vos clients vous joignent directement</div></div>
+              <div><div class="plan-feat-main">Formulaire de contact</div><div class="plan-feat-sub">Vos clients vous contactent directement</div></div>
             </div>
             <div class="plan-feature">
               <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div><div class="plan-feat-main">SEO de base inclus</div><div class="plan-feat-sub">Visible sur Google dès le lancement</div></div>
+              <div><div class="plan-feat-main">SEO de base</div><div class="plan-feat-sub">Visible sur Google dès la mise en ligne</div></div>
             </div>
             <div class="plan-feature">
               <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
@@ -2529,20 +2464,12 @@
             </div>
             <div class="plan-feature">
               <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div><div class="plan-feat-main">Propriété totale 100%</div><div class="plan-feat-sub">Votre site, sans frais cachés</div></div>
-            </div>
-            <div class="plan-feature">
-              <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div><div class="plan-feat-main">1 mois de support inclus</div><div class="plan-feat-sub">Corrections après livraison garanties</div></div>
+              <div><div class="plan-feat-main">Propriété totale 100%</div><div class="plan-feat-sub">Votre site vous appartient, sans frais cachés</div></div>
             </div>
           </div>
-
-          <!-- RIGHT: CTA -->
-          <div class="op-cta">
-            <button onclick="openStartModal('One Page 3 060 MAD')" class="plan-cta default" style="width:100%">Démarrer ce plan</button>
-            <div class="op-cta-note">Paiement unique<br>Site livré en 3 jours</div>
+          <div class="plan-cta-wrap">
+            <button onclick="openStartModal('One Page 3 060 MAD')" class="plan-cta default">Démarrer ce plan</button>
           </div>
-
         </div>
 
         <!-- STARTER -->
