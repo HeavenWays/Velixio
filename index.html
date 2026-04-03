@@ -465,6 +465,87 @@
 
     /* Body lock */
     body.mob-open { overflow: hidden; }
+
+    /* ── PROMO BANNER ── */
+    #promo-banner {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1100;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: linear-gradient(90deg, #0d0d10 0%, #1a1408 30%, #2a1f05 50%, #1a1408 70%, #0d0d10 100%);
+      border-bottom: 1px solid rgba(201,162,39,.35);
+      overflow: hidden;
+    }
+    #promo-banner::before {
+      content:'';
+      position:absolute;
+      inset:0;
+      background: linear-gradient(90deg, transparent 0%, rgba(201,162,39,.06) 50%, transparent 100%);
+      animation: bannerShimmer 3s ease-in-out infinite;
+    }
+    @keyframes bannerShimmer {
+      0%,100%{opacity:.4} 50%{opacity:1}
+    }
+    .promo-banner-inner {
+      display:flex; align-items:center; gap:.75rem;
+      position:relative; z-index:1;
+    }
+    .promo-banner-tag {
+      display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, #C9A227, #e8c347, #C9A227);
+      color:#0d0d10;
+      font-size:.6rem; font-weight:800; letter-spacing:.12em;
+      text-transform:uppercase;
+      padding:.22rem .55rem;
+      border-radius:3px;
+      box-shadow: 0 0 12px rgba(201,162,39,.4);
+      white-space:nowrap;
+    }
+    .promo-banner-text {
+      font-size:.78rem; font-weight:500; color:rgba(255,255,255,.92);
+      letter-spacing:.01em; white-space:nowrap;
+    }
+    .promo-banner-text strong {
+      color:#e8c347; font-weight:700;
+    }
+    .promo-banner-sep {
+      width:1px; height:18px;
+      background:rgba(201,162,39,.3);
+    }
+    .promo-banner-date {
+      font-size:.72rem; color:rgba(255,255,255,.5);
+      white-space:nowrap; letter-spacing:.02em;
+    }
+    .promo-banner-close {
+      position:absolute; right:14px; top:50%; transform:translateY(-50%);
+      background:none; border:none; cursor:pointer;
+      color:rgba(255,255,255,.35); font-size:1.1rem; line-height:1;
+      transition:color .2s;
+      z-index:2; padding:4px 6px;
+    }
+    .promo-banner-close:hover { color:rgba(255,255,255,.8); }
+    body:not(.banner-closed) nav { top: 48px !important; }
+    body.banner-closed #promo-banner { display:none; }
+
+    /* ── PROMO PRICING ── */
+    .plan-promo-badge {
+      display:inline-flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, #C9A227, #e8c347);
+      color:#0d0d10; font-size:.6rem; font-weight:800;
+      letter-spacing:.1em; text-transform:uppercase;
+      padding:.18rem .45rem; border-radius:3px;
+      margin-bottom:.3rem;
+      box-shadow: 0 0 8px rgba(201,162,39,.35);
+    }
+    .plan-old-price {
+      font-size:.78rem; color:rgba(255,255,255,.3);
+      text-decoration:line-through; margin-bottom:.1rem;
+      font-weight:400; letter-spacing:.01em;
+    }
   </style>
 </head>
 
@@ -481,6 +562,17 @@
   <canvas id="vx-particles"></canvas>
 
   <script src="js/modal.js" defer></script>
+  <!-- ═══ PROMO BANNER ═══ -->
+  <div id="promo-banner">
+    <div class="promo-banner-inner">
+      <span class="promo-banner-tag">✦ Offre Limitée</span>
+      <span class="promo-banner-text"><strong>−10%</strong> sur tous nos tarifs</span>
+      <div class="promo-banner-sep"></div>
+      <span class="promo-banner-date">Jusqu'au vendredi 10 avril 2026</span>
+    </div>
+    <button class="promo-banner-close" onclick="document.body.classList.add('banner-closed')" aria-label="Fermer">✕</button>
+  </div>
+
   <!-- NAV -->
 <nav id="navbar">
     <a class="nav-logo" href="#hero">
@@ -1091,7 +1183,7 @@
           </div>
         </div>
         <div class="exp-seo-right">
-          <img src="asset/Image_seo.png" alt="SEO & Visibilité" class="exp-seo-img" loading="lazy" />
+          <img src="asset/Image_seo.png" alt="SEO & Référencement Google — Velixio Marrakech" title="Premier sur Google.ma avec Velixio" class="exp-seo-img" loading="lazy" />
         </div>
       </div>
 
@@ -2319,6 +2411,108 @@
 
       <div class="plans-grid">
 
+        <!-- ONE PAGE -->
+        <div class="plan-card">
+          <div class="plan-top">
+            <div class="plan-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg></div>
+            <div class="plan-name">One Page</div>
+            <div class="plan-promo-badge">−10%</div>
+            <div class="plan-old-price">3 400 MAD</div>
+            <div class="plan-price-row">
+              <span class="plan-currency">MAD</span>
+              <span class="plan-price">3 060</span>
+            </div>
+            <div class="plan-eur">~ 310 € · paiement unique</div>
+            <div class="plan-delivery">Livraison en 3 jours ouvrés</div>
+          </div>
+          <div class="plan-for">
+            <div class="plan-for-label">Idéal pour</div>
+            <div class="plan-for-text">Auto-entrepreneurs et freelances qui ont besoin d'une présence en ligne rapide, claire et efficace sur une seule page.</div>
+          </div>
+          <div class="plan-features">
+            <div class="plan-feature">
+              <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg></div>
+              <div>
+                <div class="plan-feat-main">1 page longue optimisée</div>
+                <div class="plan-feat-sub">Accueil · Services · À propos · Contact · tout en une page fluide</div>
+              </div>
+            </div>
+            <div class="plan-feature">
+              <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg></div>
+              <div>
+                <div class="plan-feat-main">Design responsive</div>
+                <div class="plan-feat-sub">S'adapte au mobile, tablette et ordinateur</div>
+              </div>
+            </div>
+            <div class="plan-feature">
+              <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg></div>
+              <div>
+                <div class="plan-feat-main">Formulaire de contact</div>
+                <div class="plan-feat-sub">Vos clients vous contactent directement depuis la page</div>
+              </div>
+            </div>
+            <div class="plan-feature">
+              <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg></div>
+              <div>
+                <div class="plan-feat-main">SEO de base</div>
+                <div class="plan-feat-sub">Votre site visible sur Google dès la mise en ligne</div>
+              </div>
+            </div>
+            <div class="plan-feature">
+              <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg></div>
+              <div>
+                <div class="plan-feat-main">Bouton WhatsApp + Appel direct</div>
+                <div class="plan-feat-sub">Vos visiteurs vous joignent en un clic</div>
+              </div>
+            </div>
+            <div class="plan-feature">
+              <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg></div>
+              <div>
+                <div class="plan-feat-main">Hébergement 1 an + SSL inclus</div>
+                <div class="plan-feat-sub">Hébergement performant et certificat HTTPS offerts</div>
+              </div>
+            </div>
+            <div class="plan-feature">
+              <div class="plan-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg></div>
+              <div>
+                <div class="plan-feat-main">Propriété totale à 100%</div>
+                <div class="plan-feat-sub">Votre site vous appartient, sans frais cachés</div>
+              </div>
+            </div>
+          </div>
+          <div class="plan-cta-wrap">
+            <button onclick="openStartModal('One Page 3 060 MAD')" class="plan-cta default">Démarrer ce plan</button>
+          </div>
+        </div>
+
         <!-- STARTER -->
         <div class="plan-card">
           <div class="plan-top">
@@ -2329,11 +2523,13 @@
                 <path d="M12 12c0 0 5-4 8-4 0 4-3 8-8 8" />
               </svg></div>
             <div class="plan-name">Starter</div>
+            <div class="plan-promo-badge">−10%</div>
+            <div class="plan-old-price">3 900 MAD</div>
             <div class="plan-price-row">
               <span class="plan-currency">MAD</span>
-              <span class="plan-price">3 900</span>
+              <span class="plan-price">3 510</span>
             </div>
-            <div class="plan-eur">~ 395  € · paiement unique</div>
+            <div class="plan-eur">~ 355  € · paiement unique</div>
             <div class="plan-delivery">Livraison en 5 jours ouvrés</div>
           </div>
           <div class="plan-for">
@@ -2475,11 +2671,13 @@
                 <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
               </svg></div>
             <div class="plan-name">Business</div>
+            <div class="plan-promo-badge">−10%</div>
+            <div class="plan-old-price">6 900 MAD</div>
             <div class="plan-price-row">
               <span class="plan-currency">MAD</span>
-              <span class="plan-price">6 900</span>
+              <span class="plan-price">6 210</span>
             </div>
-            <div class="plan-eur">~ 700  € · paiement unique</div>
+            <div class="plan-eur">~ 630  € · paiement unique</div>
             <div class="plan-delivery">Livraison en 10 jours ouvrés</div>
           </div>
           <div class="plan-for">
@@ -2604,11 +2802,13 @@
                 <path d="M16 10a4 4 0 0 1-8 0" />
               </svg></div>
             <div class="plan-name">E-Commerce</div>
+            <div class="plan-promo-badge">−10%</div>
+            <div class="plan-old-price">10 900 MAD</div>
             <div class="plan-price-row">
               <span class="plan-currency">MAD</span>
-              <span class="plan-price">10 900</span>
+              <span class="plan-price">9 810</span>
             </div>
-            <div class="plan-eur">~ 1 105  € · paiement unique</div>
+            <div class="plan-eur">~ 995  € · paiement unique</div>
             <div class="plan-delivery">Livraison en 15 jours ouvrés</div>
           </div>
           <div class="plan-for">
@@ -2764,9 +2964,11 @@
                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
               </svg></div>
             <div class="plan-name">Essentiel</div>
+            <div class="plan-promo-badge">−10%</div>
+            <div class="plan-old-price">390 MAD/mois</div>
             <div class="plan-price-row">
               <span class="plan-currency">MAD</span>
-              <span class="plan-price">390</span>
+              <span class="plan-price">351</span>
               <span style="font-size:.85rem;color:var(--muted);font-weight:400;margin-left:.15rem">/mois</span>
             </div>
             <div class="plan-delivery" style="content:none">Sans engagement · résiliable à tout moment</div>
@@ -2845,9 +3047,11 @@
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
               </svg></div>
             <div class="plan-name">Pro</div>
+            <div class="plan-promo-badge">−10%</div>
+            <div class="plan-old-price">790 MAD/mois</div>
             <div class="plan-price-row">
               <span class="plan-currency">MAD</span>
-              <span class="plan-price">790</span>
+              <span class="plan-price">711</span>
               <span style="font-size:.85rem;color:var(--muted);font-weight:400;margin-left:.15rem">/mois</span>
             </div>
             <div class="plan-delivery" style="content:none">Sans engagement · résiliable à tout moment</div>
@@ -2924,9 +3128,11 @@
                 <line x1="2" y1="20" x2="22" y2="20" />
               </svg></div>
             <div class="plan-name">Growth</div>
+            <div class="plan-promo-badge">−10%</div>
+            <div class="plan-old-price">1 490 MAD/mois</div>
             <div class="plan-price-row">
               <span class="plan-currency">MAD</span>
-              <span class="plan-price">1 490</span>
+              <span class="plan-price">1 341</span>
               <span style="font-size:.85rem;color:var(--muted);font-weight:400;margin-left:.15rem">/mois</span>
             </div>
             <div class="plan-delivery" style="content:none">Sans engagement · résiliable à tout moment</div>
