@@ -1,14 +1,15 @@
-User-agent: *
-Allow: /
-Disallow: /admin/
-Disallow: /js/firebase-config.js
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Cache-Control: public, max-age=3600
 
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
 
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
 
-Sitemap: https://heavenways.github.io/Velixio/sitemap.xml
+/asset/*
+  Cache-Control: public, max-age=31536000, immutable
