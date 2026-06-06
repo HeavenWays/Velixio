@@ -64,7 +64,7 @@
 
     // Pricing toggle
     let isMonthly = false;
-    const prices = { p1: [3900, 2925], p2: [7900, 5925], p3: [14900, 11175] };
+    const prices = { p1: [2490, 1990], p2: [4490, 3990], p3: [4990, 4490] };
     function togglePrice() {
       isMonthly = !isMonthly;
       document.getElementById('ptog').classList.toggle('on', isMonthly);

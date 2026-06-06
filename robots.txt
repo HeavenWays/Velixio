@@ -11,4 +11,4 @@ User-agent: Bingbot
 Allow: /
 Crawl-delay: 1
 
-Sitemap: https://heavenways.github.io/Velixio/sitemap.xml
+Sitemap: https://velixio.ma/sitemap.xml

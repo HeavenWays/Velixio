@@ -208,6 +208,17 @@
       transform: translateY(-1px);
     }
 
+    /* Fondu bas du hero — efface la ligne de coupure des orbs */
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 180px;
+      background: linear-gradient(to bottom, transparent 0%, var(--bg) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
     /* HERO */
     #hero {
       min-height: 100vh;
@@ -216,7 +227,9 @@
       flex-direction: column;
       justify-content: center;
       position: relative;
-      overflow: hidden;
+      overflow: visible;
+      /* Clip only horizontal overflow to avoid scroll bar, not vertical */
+      clip-path: inset(0 0 -120px 0);
     }
 
     .hero-grid {
@@ -5177,7 +5190,7 @@
       background: var(--bg);
     }
 
-    /* Inter-section golden hairline separator */
+    /* Inter-section transition — gradient fondu, sans trait visible */
     #speed,
     #services,
     #portfolio,
@@ -5189,7 +5202,27 @@
     #faq,
     #cta,
     #contact {
-      border-top: 1px solid var(--border);
+      border-top: none;
+      position: relative;
+    }
+
+    #speed::before,
+    #services::before,
+    #portfolio::before,
+    #why::before,
+    #engagements::before,
+    #how::before,
+    #pricing::before,
+    #testimonials::before,
+    #faq::before,
+    #cta::before,
+    #contact::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(201,162,39,.22) 0%, transparent 70%);
+      pointer-events: none;
     }
 
     /* Marquee — always running, hover effects allowed */
@@ -8790,4 +8823,107 @@ button, .plan-cta, .faq-q, .nav-cta, .btn-primary, .btn-secondary {
 /* ── OVERFLOW PROTECTION ── */
 html, body {
   overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   CHROME PERFORMANCE — GPU compositing & paint containment
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Force GPU layers sur les éléments avec filter: blur (coûteux sans layer) */
+.hero-orb1,
+.hero-orb2,
+.hero-illus-wrap::before,
+.why-illus-wrap,
+.cursor-glow,
+#cursor-glow {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Contenu stabilisé : réduit les reflow/repaint entre sections */
+section {
+  contain: layout style;
+}
+#hero {
+  contain: none; /* hero a overflow:visible, contain incompatible */
+}
+
+/* Promotion du nav, du banner et du loader sur leur propre layer */
+#navbar,
+#promo-banner,
+#vx-loader,
+.wa-float {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Particules canvas — rendu direct par le compositing thread */
+#vx-particles {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  image-rendering: auto;
+  will-change: contents;
+}
+
+/* Backdrop-filter : ajouter explicit layer pour éviter la recréation */
+nav,
+.plan-card.popular,
+.modal-backdrop,
+.mob-menu {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* Animations composites uniquement — pas de layout thrashing */
+.marquee-track {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Smoothing rendu texte Chrome */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
+}
+
+/* Scrollbar Chrome légère pour éviter la recomposition */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(201,162,39,.3);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201,162,39,.5);
+}
+
+/* Réduire le coût des transitions sur les cartes (composite-only) */
+.plan-card,
+.service-card,
+.portfolio-card,
+.faq-item {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Suppression des motion effects coûteux sur Chrome si préférence réduite */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }
